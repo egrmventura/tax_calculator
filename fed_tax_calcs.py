@@ -1,3 +1,5 @@
+import sys
+
 fedtaxDict = [
     [0.1, [11000, 11000, 15700, 22000]],
     [0.12, [44725, 44725, 59850, 89450]],
@@ -24,10 +26,13 @@ def fed_tax_due(income=0, tr=0, grp=0, amt_due=0):
     income -= taxable_income
     if income > 0:
         tr += 1
-        return fed_tax_list(income, tr, grp, amt_due)
+        return fed_tax_due(income, tr, grp, amt_due)
     return amt_due
 
 def fed_tax_percentage():
     income = input("Enter your income (USD): $")
     print(income)
     print(f"Your income is ${income} per year.")
+    return income
+
+fed_tax_percentage
