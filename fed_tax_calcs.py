@@ -21,7 +21,7 @@ def fed_tax_due(income=0, tr=0, grp=0, amt_due=0):
     prevCutoff = 0 if tr == 0 else fedtaxDict[tr-1][1][grp]
     cutoff = fedtaxDict[tr][1][grp] - prevCutoff
     tax_rate = fedtaxDict[tr][0]
-    taxable_income = income if income <= cutoff else cutoff
+    taxable_income = income if income < cutoff else cutoff
     amt_due += (tax_rate * taxable_income)
     income -= taxable_income
     if income > 0:
@@ -29,10 +29,14 @@ def fed_tax_due(income=0, tr=0, grp=0, amt_due=0):
         return fed_tax_due(income, tr, grp, amt_due)
     return amt_due
 
-def fed_tax_percentage():
-    income = input("Enter your income (USD): $")
-    print(income)
-    print(f"Your income is ${income} per year.")
-    return income
+def tax_info_intake():
+    income = float(input("Enter your income (USD): $"))
+    amt_due = round(fed_tax_due(income),2)
+    fed_percentage = round(amt_due / income, 4)
+    return [amt_due, fed_percentage]
 
-fed_tax_percentage
+
+
+fed_due = tax_info_intake()
+print(f'You will owe ${fed_due[0]} in federal income tax, {100*fed_due[1]}% of your annual income.')
+
